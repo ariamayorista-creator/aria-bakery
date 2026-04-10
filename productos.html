@@ -276,6 +276,7 @@ function renderProducts(category, products = allProducts) {
 }
 
 function openModal(id) {
+  console.log('🔴 openModal llamado con id:', id);
   const p = allProducts.find(x => x.id === id);
   if (!p) return;
 
