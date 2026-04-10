@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo — ARIA Pastelería Artesanal</title>
+<meta name="description" content="Catálogo de productos artesanales de Aria Bakery.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;0,900;1,600;1,700&family=Noto+Serif+Display:ital,wght@0,700;0,900;1,700;1,900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green: #4B4E2B;
+  --terracotta: #AE603B;
+  --camel: #C5905A;
+  --sand: #DACFC7;
+  --cream: #EADED1;
+  --dark: #332C24;
+  --text: #332C24;
+  --muted: #7a6658;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:#EADED1;color:#332C24;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:1.1rem 3rem;background:rgba(234,222,209,.96);backdrop-filter:blur(16px);border-bottom:1px solid rgba(174,96,59,.18)}
+nav.scrolled{box-shadow:0 2px 30px rgba(51,44,36,.12)}
+.nav-logo{display:flex;flex-direction:column;text-decoration:none;line-height:1}
+.nav-logo-name{font-family:'Noto Serif Display',serif;font-size:1.7rem;font-weight:900;color:#4B4E2B}
+.nav-logo-sub{font-family:'Inter',sans-serif;font-size:.52rem;font-weight:600;font-style:italic;letter-spacing:.18em;text-transform:uppercase;color:var(--camel);margin-top:-.1rem}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.82rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--green);text-decoration:none;position:relative;padding-bottom:3px;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:var(--terracotta);transition:width .35s}
+.nav-links a.nav-link-active{color:var(--terracotta)!important}
+.nav-links a.nav-link-active::after{width:100%!important}
+.nav-cta{background:#AE603B!important;color:#fff!important;padding:.45rem 1.3rem;border-radius:50px;font-size:.8rem!important;border:none!important}
+
+section{padding:6rem 3rem}
+.section-title{font-family:'Noto Serif Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:700;color:var(--dark);margin-bottom:1rem}
+
+/* HERO MINI */
+.hero-mini{min-height:35vh;display:grid;place-items:center;padding:7rem 3rem 4rem;background:linear-gradient(135deg, rgba(174,96,59,.08) 0%, rgba(201,151,74,.05) 100%)}
+.hero-mini-title{font-family:'Noto Serif Display',serif;font-size:clamp(2.5rem,6vw,4rem);font-weight:900;color:var(--dark);margin-bottom:.8rem}
+
+/* CONTROLS */
+.catalog-controls{display:flex;flex-direction:column;gap:1.5rem;max-width:600px;margin:0 auto 3rem;align-items:stretch}
+.search-box{display:flex;align-items:center;gap:.8rem;background:white;padding:1rem 1.5rem;border-radius:50px;box-shadow:0 4px 16px rgba(51,44,36,.08)}
+.search-box input{flex:1;border:none;background:transparent;font-size:.95rem;outline:none}
+.filter-group{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+.filter-btn{padding:.6rem 1.4rem;border-radius:50px;border:1.5px solid rgba(174,96,59,.22);background:white;color:var(--muted);font-size:.82rem;font-weight:500;cursor:pointer;transition:all .3s}
+.filter-btn.active{background:var(--terracotta);border-color:#AE603B;color:#fff}
+
+/* LISTA DE PRODUCTOS */
+.products-list{display:flex;flex-direction:column;gap:1.5rem;max-width:900px;margin:0 auto}
+.prod-item{background:white;border-radius:1.2rem;overflow:hidden;display:flex;box-shadow:0 2px 12px rgba(51,44,36,.06);transition:all .3s}
+.prod-item:hover{transform:translateX(8px);box-shadow:0 8px 24px rgba(51,44,36,.12)}
+.prod-img{width:120px;min-width:120px;height:120px;background:#f3e4d7;display:flex;align-items:center;justify-content:center;font-size:3rem}
+.prod-content{flex:1;padding:1.5rem;display:flex;justify-content:space-between;align-items:center}
+.prod-info h3{font-family:'Noto Serif Display',serif;font-size:1.2rem;font-weight:700;color:var(--dark);margin-bottom:.4rem}
+.prod-cat{font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--terracotta);margin-bottom:.5rem}
+.prod-desc{font-size:.85rem;color:var(--muted);line-height:1.5;max-width:400px}
+.prod-btn{padding:.6rem 1.2rem;background:var(--terracotta);color:#fff;border:none;border-radius:50px;font-size:.8rem;font-weight:500;cursor:pointer;transition:all .3s}
+.prod-btn:hover{background:var(--green);transform:translateY(-2px)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(51,44,36,.7);backdrop-filter:blur(10px);display:none;place-items:center;padding:2rem}
+.modal-overlay.open{display:grid}
+.modal{background:#EADED1;border-radius:2rem;max-width:700px;width:100%;max-height:88vh;overflow-y:auto;position:relative;animation:modalIn .4s}
+.modal-img{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-radius:2rem 2rem 0 0;font-size:6rem;overflow:hidden}
+.modal-body{padding:2rem 2.5rem}
+.modal-cat{font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;margin-bottom:.5rem}
+.modal-name{font-family:'Noto Serif Display',serif;font-size:1.8rem;font-weight:700;color:var(--dark);margin-bottom:.8rem}
+.modal-desc{font-size:.95rem;line-height:1.8;color:var(--text);margin-bottom:1.5rem}
+.modal-details{background:var(--sand);border-radius:1rem;padding:1.2rem 1.5rem;margin-bottom:1.5rem;font-size:.9rem;line-height:1.6}
+.modal-close{position:absolute;top:1.2rem;right:1.2rem;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.92);border:none;cursor:pointer;font-size:1.1rem;transition:all .2s;z-index:1}
+.modal-close:hover{background:var(--terracotta);color:white}
+.modal-cta{margin-top:1.5rem}
+.modal-btn{display:block;width:100%;padding:.8rem 1.5rem;background:var(--terracotta);color:#fff;border:none;border-radius:50px;font-size:.9rem;font-weight:500;cursor:pointer;text-align:center;text-decoration:none;transition:all .3s}
+.modal-btn:hover{background:var(--green);transform:translateY(-2px)}
+
+@keyframes modalIn{from{opacity:0;transform:scale(.9) translateY(20px)}}
+
+/* FOOTER */
+footer{background:linear-gradient(135deg,#4B4E2B 0%,#332C24 100%);color:#EADED1;padding:4rem 3rem 2rem;margin-top:4rem}
+footer a{color:#EADED1;text-decoration:none;transition:color .3s}
+footer a:hover{color:var(--terracotta)}
+.footer-inner{max-width:1200px;margin:0 auto}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:3rem;margin-bottom:3rem}
+.footer-col h4{font-family:'Noto Serif Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:1.2rem}
+.footer-col ul{list-style:none}
+.footer-col li{margin:.6rem 0;font-size:.9rem}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;padding-top:2rem;border-top:1px solid rgba(174,96,59,.2);font-size:.85rem;opacity:.8}
+.admin-link{display:block;text-align:center;margin-top:1rem;font-size:.8rem;color:rgba(234,222,209,.6);text-decoration:none;transition:color .3s}
+.admin-link:hover{color:#EADED1}
+
+@media (max-width:768px){
+  nav{padding:1rem 1.5rem}
+  .nav-links{display:none}
+  section{padding:3rem 1.5rem}
+  .prod-item{flex-direction:column}
+  .prod-img{width:100%;height:100px}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="aria-bakery.html" class="nav-logo">
+    <span class="nav-logo-name">Aria</span>
+    <span class="nav-logo-sub">Bakery &amp; Delicatessen</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="aria-bakery.html#nosotros">Nosotros</a></li>
+    <li><a href="aria-bakery.html#productos">Productos</a></li>
+    <li><a href="productos.html" class="nav-link-active">Catálogo</a></li>
+    <li><a href="aria-bakery.html#contacto" class="nav-cta">Contacto</a></li>
+  </ul>
+</nav>
+
+<div class="hero-mini">
+  <div>
+    <h1 class="hero-mini-title">Catálogo de <em style="font-style:italic;color:#AE603B">Productos</em></h1>
+  </div>
+</div>
+
+<section class="catalog-section">
+  <div class="catalog-controls">
+    <div class="search-box">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;opacity:.6">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Buscar producto..." autocomplete="off">
+    </div>
+    <div class="filter-group" id="filterGroup"></div>
+  </div>
+
+  <div class="products-list" id="productsGrid"></div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div class="modal-img" id="modalImg"></div>
+    <div class="modal-body">
+      <p class="modal-cat" id="modalCat"></p>
+      <h2 class="modal-name" id="modalName"></h2>
+      <p class="modal-desc" id="modalDesc"></p>
+      <div class="modal-details" id="modalDetails"></div>
+      <div class="modal-cta">
+        <a href="#" class="modal-btn" id="modalWaBtn" target="_blank">Consultar por WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3 style="font-family:'Noto Serif Display',serif;font-size:1.4rem;font-weight:900;margin-bottom:.8rem">Aria</h3>
+        <p>Pastelería artesanal elaborada con ingredientes seleccionados.</p>
+        <p style="margin-top:.8rem">📍 Ciudad de Buenos Aires</p>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto</h4>
+        <ul>
+          <li><span>📱 +54 9 11 2255-3823</span></li>
+          <li><span>📧 ariamayorista@gmail.com</span></li>
+          <li><span>📷 @ariabakeryok</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 <em>Aria Pastelería Artesanal</em>. Elaborado con ❤️</p>
+    </div>
+  </div>
+  <a href="admin.html" class="admin-link">Ingresar</a>
+</footer>
+
+<script>
+const SUPABASE_URL = 'https://fecvwfjoyfqzlsgmhzty.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlY3Z3ZmpveWZxemxzZ21oenR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU2ODkyMjMsImV4cCI6MjA5MTI2NTIyM30.k49UEWC3A7_E0Lp-OdCG-EZ7e52bYARdagjpjmdxF98';
+
+let allProducts = [];
+
+async function loadProducts() {
+  try {
+    const response = await fetch(
+      `${SUPABASE_URL}/rest/v1/productos?select=*&order=id`,
+      {
+        headers: {
+          'apikey': SUPABASE_ANON,
+          'Authorization': `Bearer ${SUPABASE_ANON}`
+        }
+      }
+    );
+    const data = await response.json();
+    allProducts = data.filter(p => p.activo);
+    renderFilterButtons();
+    renderProducts('todos');
+  } catch (error) {
+    console.error('Error:', error);
+    document.getElementById('productsGrid').innerHTML = '<p style="text-align:center;color:#7a6658">Error cargando productos</p>';
+  }
+}
+
+function renderFilterButtons() {
+  const categories = ['todos', ...new Set(allProducts.map(p => p.categoria))];
+  const filterGroup = document.getElementById('filterGroup');
+  filterGroup.innerHTML = categories.map(cat =>
+    `<button class="filter-btn ${cat === 'todos' ? 'active' : ''}" data-category="${cat}">
+      ${cat === 'todos' ? 'Todos' : cat}
+    </button>`
+  ).join('');
+
+  filterGroup.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterGroup.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      filterProducts(btn.dataset.category);
+    });
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  const query = e.target.value.toLowerCase();
+  const activeFilter = document.querySelector('.filter-btn.active').dataset.category;
+  filterProducts(activeFilter, query);
+});
+
+function filterProducts(category, searchQuery = '') {
+  let filtered = allProducts;
+
+  if (category !== 'todos') {
+    filtered = filtered.filter(p => p.categoria === category);
+  }
+
+  if (searchQuery) {
+    filtered = filtered.filter(p =>
+      p.nombre.toLowerCase().includes(searchQuery) ||
+      p.descripcion.toLowerCase().includes(searchQuery)
+    );
+  }
+
+  renderProducts(category, filtered);
+}
+
+function renderProducts(category, products = allProducts) {
+  const grid = document.getElementById('productsGrid');
+  const toRender = products && products.length > 0 ? products :
+    (category === 'todos' ? allProducts : allProducts.filter(p => p.categoria === category));
+
+  if (toRender.length === 0) {
+    grid.innerHTML = '<p style="text-align:center;color:#7a6658">No hay productos</p>';
+    return;
+  }
+
+  grid.innerHTML = toRender.map((p, i) => `
+    <div class="prod-item" style="animation:fadeUp .6s ease-out ${i * 50}ms both">
+      <div class="prod-img" style="background:${getColor(p.categoria)}">
+        ${p.foto_url ? `<img src="${p.foto_url}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0">` : getEmoji(p.categoria)}
+      </div>
+      <div class="prod-content">
+        <div class="prod-info">
+          <p class="prod-cat" style="color:${getAccent(p.categoria)}">${p.categoria}</p>
+          <h3>${p.nombre}</h3>
+          <p class="prod-desc">${p.descripcion}</p>
+        </div>
+        <button class="prod-btn" onclick="openModal(${p.id})">Ver detalles</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openModal(id) {
+  const p = allProducts.find(x => x.id === id);
+  if (!p) return;
+
+  document.getElementById('modalImg').style.background = getColor(p.categoria);
+  document.getElementById('modalImg').innerHTML = p.foto_url ?
+    `<img src="${p.foto_url}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover">` :
+    getEmoji(p.categoria);
+  document.getElementById('modalCat').textContent = p.categoria;
+  document.getElementById('modalCat').style.color = getAccent(p.categoria);
+  document.getElementById('modalName').textContent = p.nombre;
+  document.getElementById('modalDesc').textContent = p.descripcion;
+  document.getElementById('modalDetails').textContent = p.detalles;
+
+  const waMsg = encodeURIComponent(`Hola! Me interesa consultar por ${p.nombre}. ¿Podría darme más información?`);
+  document.getElementById('modalWaBtn').href = `https://wa.me/5491122553823?text=${waMsg}`;
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.getElementById('modalClose').addEventListener('click', () => {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+});
+
+document.getElementById('modalOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'modalOverlay') {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+function getEmoji(cat) {
+  const emojis = {'Chipa': '🌽', 'Budines': '🍫', 'Alfajores': '🍪', 'Cookies': '🍪', 'Tortas': '🎂'};
+  return emojis[cat] || '🧁';
+}
+
+function getColor(cat) {
+  const colors = {'Chipa': '#f3e4d7', 'Budines': '#f3e8d0', 'Alfajores': '#d4d9b0', 'Cookies': '#f3e8d0', 'Tortas': '#f3e4d7'};
+  return colors[cat] || '#f3e4d7';
+}
+
+function getAccent(cat) {
+  const accents = {'Chipa': '#AE603B', 'Budines': '#C5905A', 'Alfajores': '#4B4E2B', 'Cookies': '#C5905A', 'Tortas': '#AE603B'};
+  return accents[cat] || '#AE603B';
+}
+
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 30);
+}, { passive: true });
+
+loadProducts();
+</script>
+</body>
+</html>
